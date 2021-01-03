@@ -132,6 +132,23 @@ Paribu.Net provides two clients to interact with the Paribu API. The  `ParibuCli
 ```C#
 ParibuClient api = new ParibuClient();
 
+/* Initials Data */
+var p01 = api.GetInitials();
+var p02 = api.GetBanners();
+var p03 = api.GetDisplayGroups();
+var p04 = api.GetExchangeConfig();
+var p05 = api.GetCurrencies();
+var p06 = api.GetMarkets();
+var p07 = api.GetInitialTickers();
+
+/* Ticker Data */
+var p11 = api.GetTickers();
+
+/* Market Data */
+var p21 = api.GetMarketData("btc-tl");
+var p22 = api.GetCandles("btc-tl");
+var p23 = api.GetOrderBook("btc-tl");
+var p24 = api.GetTrades("btc-tl");
 ```
 
 ## Websocket Api Examples
