@@ -212,5 +212,8 @@ _ = ws.Unsubscribe(sub02.Data);
 ```
 
 ## Release Notes
+* Version 1.2.8 - 12 Jan 2021
+    * Updated CryptoExchange.Net to 3.5.0
+
 * Version 1.0.0 - 03 Jan 2021
     * First Release

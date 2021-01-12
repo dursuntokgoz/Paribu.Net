@@ -8,7 +8,10 @@
   <PropertyGroup>
     <PackageId>Paribu.Net</PackageId>
     <Authors>Burak Öner</Authors>
-    <PackageVersion>1.0.0</PackageVersion>
+    <Version>1.2.8</Version>
+    <FileVersion>1.2.8.0</FileVersion>
+    <PackageVersion>1.2.8</PackageVersion>
+    <AssemblyVersion>1.2.8.0</AssemblyVersion>
     <Description>Paribu.Net is a .Net wrapper for the Paribu API. It includes supports all endpoints</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>Paribu Paribu.Net C# .Net CryptoCurrency Exchange API Wrapper</PackageTags>
@@ -16,16 +19,16 @@
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>
-    Version 1.0.0 - 03 Jan 2021
-    - First Release
+      Version 1.2.8 - 12 Jan 2021
+      - Updated CryptoExchange.Net to 3.5.0
+      
+      Version 1.0.0 - 03 Jan 2021
+      - First Release
     </PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
     <PackageProjectUrl>https://github.com/burakoner/Paribu.Net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/burakoner/Paribu.Net</RepositoryUrl>
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Icon\" />
@@ -38,7 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CryptoExchange.Net" Version="3.4.0" />
+    <PackageReference Include="CryptoExchange.Net" Version="3.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
