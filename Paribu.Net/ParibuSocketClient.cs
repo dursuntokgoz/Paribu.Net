@@ -28,7 +28,7 @@ namespace Paribu.Net
         /// Create a new instance of ParibuSocketClient with default options
         /// </summary>
         /// <param name="pusherApplicationId">Paribu Pusher Application Id</param>
-        public ParibuSocketClient(string pusherApplicationId= "a68d528f48f652c94c88") : this(DefaultOptions, pusherApplicationId)
+        public ParibuSocketClient(string pusherApplicationId = "a68d528f48f652c94c88") : this(DefaultOptions, pusherApplicationId)
         {
         }
 
@@ -92,7 +92,7 @@ namespace Paribu.Net
             return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
-    public CallResult<UpdateSubscription> SubscribeToMarketData(string pair, Action<ParibuSocketOrderBook> onOrderBookData, Action<ParibuSocketTrade> onTradeData) => SubscribeToMarketDataAsync(pair, onOrderBookData, onTradeData).Result;
+        public CallResult<UpdateSubscription> SubscribeToMarketData(string pair, Action<ParibuSocketOrderBook> onOrderBookData, Action<ParibuSocketTrade> onTradeData) => SubscribeToMarketDataAsync(pair, onOrderBookData, onTradeData).Result;
         public async Task<CallResult<UpdateSubscription>> SubscribeToMarketDataAsync(string pair, Action<ParibuSocketOrderBook> onOrderBookData, Action<ParibuSocketTrade> onTradeData)
         {
             var internalHandler = new Action<ParibuSocketResponse>(data =>
@@ -258,7 +258,7 @@ namespace Paribu.Net
         {
             return ++iterator;
         }
-        
+
         #endregion
 
     }
