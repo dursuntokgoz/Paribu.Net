@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Paribu.Net.Converters
 {
-    internal class CurrencyGroupConverter : BaseConverter<ParibuCurrencyGroup>
+    public class CurrencyGroupConverter : BaseConverter<ParibuCurrencyGroup>
     {
         public CurrencyGroupConverter() : this(true) { }
         public CurrencyGroupConverter(bool quotes) : base(quotes) { }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Paribu.Net.Converters
 {
-    internal class MarketGroupConverter : BaseConverter<ParibuMarketGroup>
+    public class MarketGroupConverter : BaseConverter<ParibuMarketGroup>
     {
         public MarketGroupConverter() : this(true) { }
         public MarketGroupConverter(bool quotes) : base(quotes) { }

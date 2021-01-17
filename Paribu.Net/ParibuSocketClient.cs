@@ -16,11 +16,11 @@ namespace Paribu.Net
 {
     public partial class ParibuSocketClient : SocketClient, ISocketClient
     {
-        public string PusherApplicationId { get; private set; }
+        public string PusherApplicationId { get; protected set; }
 
         #region Client Options
-        private static ParibuSocketClientOptions defaultOptions = new ParibuSocketClientOptions();
-        private static ParibuSocketClientOptions DefaultOptions => defaultOptions.Copy();
+        protected static ParibuSocketClientOptions defaultOptions = new ParibuSocketClientOptions();
+        protected static ParibuSocketClientOptions DefaultOptions => defaultOptions.Copy();
         #endregion
 
         #region Constructor/Destructor
@@ -58,14 +58,14 @@ namespace Paribu.Net
         /// Sets Paribu Pusher Application Id
         /// </summary>
         /// <param name="pusherApplicationId">Paribu Pusher Application Id</param>
-        public void SetPusherApplicationId(string pusherApplicationId)
+        public virtual void SetPusherApplicationId(string pusherApplicationId)
         {
             PusherApplicationId = pusherApplicationId;
         }
         #endregion
 
-        public CallResult<UpdateSubscription> SubscribeToTickers(Action<ParibuSocketTicker> onTickerData, Action<ParibuSocketPriceSeries> onPriceSeriesData) => SubscribeToTickersAsync(onTickerData, onPriceSeriesData).Result;
-        public async Task<CallResult<UpdateSubscription>> SubscribeToTickersAsync(Action<ParibuSocketTicker> onTickerData, Action<ParibuSocketPriceSeries> onPriceSeriesData)
+        public virtual CallResult<UpdateSubscription> SubscribeToTickers(Action<ParibuSocketTicker> onTickerData, Action<ParibuSocketPriceSeries> onPriceSeriesData) => SubscribeToTickersAsync(onTickerData, onPriceSeriesData).Result;
+        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTickersAsync(Action<ParibuSocketTicker> onTickerData, Action<ParibuSocketPriceSeries> onPriceSeriesData)
         {
             var internalHandler = new Action<ParibuSocketResponse>(data =>
             {
@@ -92,8 +92,8 @@ namespace Paribu.Net
             return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
-        public CallResult<UpdateSubscription> SubscribeToMarketData(string pair, Action<ParibuSocketOrderBook> onOrderBookData, Action<ParibuSocketTrade> onTradeData) => SubscribeToMarketDataAsync(pair, onOrderBookData, onTradeData).Result;
-        public async Task<CallResult<UpdateSubscription>> SubscribeToMarketDataAsync(string pair, Action<ParibuSocketOrderBook> onOrderBookData, Action<ParibuSocketTrade> onTradeData)
+        public virtual CallResult<UpdateSubscription> SubscribeToMarketData(string pair, Action<ParibuSocketOrderBook> onOrderBookData, Action<ParibuSocketTrade> onTradeData) => SubscribeToMarketDataAsync(pair, onOrderBookData, onTradeData).Result;
+        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarketDataAsync(string pair, Action<ParibuSocketOrderBook> onOrderBookData, Action<ParibuSocketTrade> onTradeData)
         {
             var internalHandler = new Action<ParibuSocketResponse>(data =>
             {
@@ -142,13 +142,24 @@ namespace Paribu.Net
         }
 
         #region Core Methods
-        private void WelcomeHandler(SocketConnection connection, JToken data)
+
+        protected long iterator = 0;
+        protected virtual long NextRequestId()
+        {
+            return ++iterator;
+        }
+
+        protected virtual void WelcomeHandler(SocketConnection connection, JToken data)
         {
             if (data["event"] != null && (string)data["event"] == "pusher:connection_established")
                 return;
         }
 
         protected override SocketConnection GetWebsocket(string address, bool authenticated)
+        {
+            return this.ParibuGetWebsocket(address, authenticated);
+        }
+        protected virtual SocketConnection ParibuGetWebsocket(string address, bool authenticated)
         {
             address = address.TrimEnd('/').Replace("{appid}", PusherApplicationId);
             var socketResult = sockets.Where(s =>
@@ -179,13 +190,20 @@ namespace Paribu.Net
 
         protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
         {
+            return this.ParibuHandleQueryResponse<T>(s, request, data, out  callResult);
+        }
+        protected virtual bool ParibuHandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
+        {
             callResult = new CallResult<T>(default, null);
             return true;
         }
 
         protected override bool HandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object> callResult)
         {
-            callResult = null;
+            return this.ParibuHandleSubscriptionResponse(s, subscription, request, message, out callResult);
+        }
+        protected virtual bool ParibuHandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object> callResult)
+        {
             callResult = new CallResult<object>(true, null);
 
             // Check for Success
@@ -211,6 +229,10 @@ namespace Paribu.Net
 
         protected override bool MessageMatchesHandler(JToken data, object request)
         {
+            return this.ParibuMessageMatchesHandler(data, request);
+        }
+        protected virtual bool ParibuMessageMatchesHandler(JToken data, object request)
+        {
             if (request is ParibuSocketRequest<ParibuSocketSubscribeRequest> socRequest)
             {
                 if (data["event"] == null || data["channel"] == null)
@@ -231,10 +253,18 @@ namespace Paribu.Net
 
         protected override bool MessageMatchesHandler(JToken message, string identifier)
         {
+            return this.ParibuMessageMatchesHandler(message,identifier);
+        }
+        protected virtual bool ParibuMessageMatchesHandler(JToken message, string identifier)
+        {
             return true;
         }
 
         protected override async Task<bool> Unsubscribe(SocketConnection connection, SocketSubscription s)
+        {
+            return await this.ParibuUnsubscribe(connection, s);
+        }
+        protected virtual async Task<bool> ParibuUnsubscribe(SocketConnection connection, SocketSubscription s)
         {
             if (s == null || s.Request == null)
                 return false;
@@ -250,15 +280,12 @@ namespace Paribu.Net
 
         protected override Task<CallResult<bool>> AuthenticateSocket(SocketConnection s)
         {
+            return this.ParibuAuthenticateSocket(s);
+        }
+        protected virtual Task<CallResult<bool>> ParibuAuthenticateSocket(SocketConnection s)
+        {
             throw new NotImplementedException();
         }
-
-        private long iterator = 0;
-        protected long NextRequestId()
-        {
-            return ++iterator;
-        }
-
         #endregion
 
     }

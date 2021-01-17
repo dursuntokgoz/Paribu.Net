@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Paribu.Net.SocketObjects
 {
-    internal class SocketPatch<T>
+    public class SocketPatch<T>
     {
         [JsonProperty("index")]
         public string Index { get; set; }
@@ -13,7 +13,7 @@ namespace Paribu.Net.SocketObjects
         public T Patch { get; set; }
     }
 
-    internal class SocketMerge<T>
+    public class SocketMerge<T>
     {
         [JsonProperty("unset")]
         public IEnumerable<string> Unset { get; set; }
@@ -26,13 +26,13 @@ namespace Paribu.Net.SocketObjects
     }
 
     [JsonConverter(typeof(TypedDataConverter<SocketTickers>))]
-    internal class SocketTickers
+    public class SocketTickers
     {
         [TypedData]
         public Dictionary<string, ParibuSocketTicker> Data { get; set; }
     }
 
-    internal class SocketOrderBook
+    public class SocketOrderBook
     {
         [JsonProperty("buy")]
         public SocketOrderBookEntries Bids { get; set; }
@@ -42,7 +42,7 @@ namespace Paribu.Net.SocketObjects
     }
 
     [JsonConverter(typeof(TypedDataConverter<SocketOrderBookEntries>))]
-    internal class SocketOrderBookEntries
+    public class SocketOrderBookEntries
     {
         [TypedData]
         public Dictionary<decimal, decimal> Data { get; set; }

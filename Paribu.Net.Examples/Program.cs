@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Paribu.Net.CoreObjects;
+using CryptoExchange.Net.Objects;
 
 namespace Paribu.Net.Examples
 {

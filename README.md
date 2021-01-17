@@ -216,6 +216,10 @@ _ = ws.Unsubscribe(sub02.Data);
 ```
 
 ## Release Notes
+* Version 2.0.0 - 17 Jan 2021
+    * All methods are virtual now. You can customize methods by overriding.
+    * Fixed several minor bugs
+
 * Version 1.2.9 - 16 Jan 2021
     * Fixed some minor bugs
 

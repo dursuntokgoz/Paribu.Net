@@ -2,7 +2,7 @@
 
 namespace Paribu.Net.CoreObjects
 {
-    internal class ParibuSocketRequest<T>
+    public class ParibuSocketRequest<T>
     {
         [JsonProperty("event")]
         public string Event { get; set; }
@@ -11,7 +11,7 @@ namespace Paribu.Net.CoreObjects
         public T Data { get; set; }
     }
 
-    internal class ParibuSocketSubscribeRequest
+    public class ParibuSocketSubscribeRequest
     {
         [JsonProperty("auth")]
         public string Auth { get; set; }

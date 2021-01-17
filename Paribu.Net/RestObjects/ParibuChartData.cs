@@ -29,7 +29,7 @@ namespace Paribu.Net.RestObjects
         public decimal Volume { get; set; }
     }
 
-    internal class ChartData
+    public class ChartData
     {
         [JsonProperty("market")]
         public string Market { get; set; }

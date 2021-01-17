@@ -18,13 +18,13 @@ namespace Paribu.Net
     public class ParibuClient : RestClient, IRestClient, IParibuClient
     {
         #region Fields
-        private static ParibuClientOptions defaultOptions = new ParibuClientOptions();
-        private static ParibuClientOptions DefaultOptions => defaultOptions.Copy();
+        protected static ParibuClientOptions defaultOptions = new ParibuClientOptions();
+        protected static ParibuClientOptions DefaultOptions => defaultOptions.Copy();
 
         // Endpoints
-        private const string Endpoints_Public_Initials = "app/initials";
-        private const string Endpoints_Public_Markets = "app/markets/{pair}";
-        private const string Endpoints_Public_Ticker = "ticker";
+        protected const string Endpoints_Public_Initials = "app/initials";
+        protected const string Endpoints_Public_Markets = "app/markets/{pair}";
+        protected const string Endpoints_Public_Ticker = "ticker";
         #endregion
 
         #region Constructor / Destructor
@@ -58,14 +58,14 @@ namespace Paribu.Net
         #endregion
 
         #region Api Methods
-        public IEnumerable<ParibuBanner> GetBanners(CancellationToken ct = default) => GetInitialsAsync(ct).Result.Data.Banners;
-        public ParibuDisplayGroups GetDisplayGroups(CancellationToken ct = default) => GetInitialsAsync(ct).Result.Data.DisplayGroups;
-        public ParibuExchangeConfig GetExchangeConfig(CancellationToken ct = default) => GetInitialsAsync(ct).Result.Data.ExchangeConfig;
-        public Dictionary<string, ParibuCurrency> GetCurrencies(CancellationToken ct = default) => GetInitialsAsync(ct).Result.Data.Currencies.Data;
-        public Dictionary<string, ParibuMarket> GetMarkets(CancellationToken ct = default) => GetInitialsAsync(ct).Result.Data.Markets.Data;
-        public Dictionary<string, ParibuInitialTicker> GetInitialTickers(CancellationToken ct = default) => GetInitialsAsync(ct).Result.Data.Tickers.Data;
-        public WebCallResult<ParibuInitials> GetInitials(CancellationToken ct = default) => GetInitialsAsync(ct).Result;
-        public async Task<WebCallResult<ParibuInitials>> GetInitialsAsync(CancellationToken ct = default)
+        public virtual IEnumerable<ParibuBanner> GetBanners(CancellationToken ct = default) => GetInitialsAsync(ct).Result.Data.Banners;
+        public virtual ParibuDisplayGroups GetDisplayGroups(CancellationToken ct = default) => GetInitialsAsync(ct).Result.Data.DisplayGroups;
+        public virtual ParibuExchangeConfig GetExchangeConfig(CancellationToken ct = default) => GetInitialsAsync(ct).Result.Data.ExchangeConfig;
+        public virtual Dictionary<string, ParibuCurrency> GetCurrencies(CancellationToken ct = default) => GetInitialsAsync(ct).Result.Data.Currencies.Data;
+        public virtual Dictionary<string, ParibuMarket> GetMarkets(CancellationToken ct = default) => GetInitialsAsync(ct).Result.Data.Markets.Data;
+        public virtual Dictionary<string, ParibuInitialTicker> GetInitialTickers(CancellationToken ct = default) => GetInitialsAsync(ct).Result.Data.Tickers.Data;
+        public virtual WebCallResult<ParibuInitials> GetInitials(CancellationToken ct = default) => GetInitialsAsync(ct).Result;
+        public virtual async Task<WebCallResult<ParibuInitials>> GetInitialsAsync(CancellationToken ct = default)
         {
             var result = await SendRequest<ParibuApiResponse<ParibuInitials>>(GetUrl(Endpoints_Public_Initials), method: HttpMethod.Get, cancellationToken: ct, checkResult: false, signed: false).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<ParibuInitials>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
@@ -73,8 +73,8 @@ namespace Paribu.Net
             return new WebCallResult<ParibuInitials>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
 
-        public WebCallResult<Dictionary<string, ParibuTicker>> GetTickers(CancellationToken ct = default) => GetTickersAsync(ct).Result;
-        public async Task<WebCallResult<Dictionary<string, ParibuTicker>>> GetTickersAsync(CancellationToken ct = default)
+        public virtual WebCallResult<Dictionary<string, ParibuTicker>> GetTickers(CancellationToken ct = default) => GetTickersAsync(ct).Result;
+        public virtual async Task<WebCallResult<Dictionary<string, ParibuTicker>>> GetTickersAsync(CancellationToken ct = default)
         {
             var result = await SendRequest<ParibuTickers>(GetUrl(Endpoints_Public_Ticker), method: HttpMethod.Get, cancellationToken: ct, checkResult: false, signed: false).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<Dictionary<string, ParibuTicker>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
@@ -82,11 +82,11 @@ namespace Paribu.Net
             return new WebCallResult<Dictionary<string, ParibuTicker>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
 
-        public ParibuChartData GetCandles(string pair, CancellationToken ct = default) => GetMarketDataAsync(pair, ct).Result.Data.ChartData;
-        public ParibuOrderBook GetOrderBook(string pair, CancellationToken ct = default) => GetMarketDataAsync(pair, ct).Result.Data.OrderBook;
-        public IEnumerable<ParibuTrade> GetTrades(string pair, CancellationToken ct = default) => GetMarketDataAsync(pair, ct).Result.Data.Trades;
-        public WebCallResult<ParibuMarketData> GetMarketData(string pair, CancellationToken ct = default) => GetMarketDataAsync(pair, ct).Result;
-        public async Task<WebCallResult<ParibuMarketData>> GetMarketDataAsync(string pair, CancellationToken ct = default)
+        public virtual ParibuChartData GetCandles(string pair, CancellationToken ct = default) => GetMarketDataAsync(pair, ct).Result.Data.ChartData;
+        public virtual ParibuOrderBook GetOrderBook(string pair, CancellationToken ct = default) => GetMarketDataAsync(pair, ct).Result.Data.OrderBook;
+        public virtual IEnumerable<ParibuTrade> GetTrades(string pair, CancellationToken ct = default) => GetMarketDataAsync(pair, ct).Result.Data.Trades;
+        public virtual WebCallResult<ParibuMarketData> GetMarketData(string pair, CancellationToken ct = default) => GetMarketDataAsync(pair, ct).Result;
+        public virtual async Task<WebCallResult<ParibuMarketData>> GetMarketDataAsync(string pair, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -128,8 +128,11 @@ namespace Paribu.Net
         #endregion
 
         #region Protected Methods
-
         protected override Error ParseErrorResponse(JToken error)
+        {
+            return this.ParibuParseErrorResponse(error);
+        }
+        protected virtual Error ParibuParseErrorResponse(JToken error)
         {
             if (error["message"] == null)
                 return new ServerError(error.ToString());
@@ -137,11 +140,10 @@ namespace Paribu.Net
             return new ServerError((string)error["message"]);
         }
 
-        protected Uri GetUrl(string endpoint)
+        protected virtual Uri GetUrl(string endpoint)
         {
             return new Uri($"{BaseAddress.TrimEnd('/')}/{endpoint}");
         }
-
         #endregion
 
     }

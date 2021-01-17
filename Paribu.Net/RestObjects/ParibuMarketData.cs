@@ -13,7 +13,7 @@ namespace Paribu.Net.RestObjects
         public ParibuChartData ChartData { get; set; }
     }
 
-    internal class MarketData
+    public class MarketData
     {
         [JsonProperty("orderBook")]
         public MarketDataOrderBook OrderBook { get; set; }
@@ -25,7 +25,7 @@ namespace Paribu.Net.RestObjects
         public ChartData ChartData { get; set; }
     }
 
-    internal class MarketDataOrderBook
+    public class MarketDataOrderBook
     {
         [JsonProperty("buy")]
         public MarketDataOrderBookList Bids { get; set; }
@@ -35,7 +35,7 @@ namespace Paribu.Net.RestObjects
     }
 
     [JsonConverter(typeof(TypedDataConverter<MarketDataOrderBookList>))]
-    internal class MarketDataOrderBookList
+    public class MarketDataOrderBookList
     {
         [TypedData]
         public Dictionary<decimal, decimal> Data { get; set; }

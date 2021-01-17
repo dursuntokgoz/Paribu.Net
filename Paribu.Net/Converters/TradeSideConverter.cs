@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Paribu.Net.Converters
 {
-    internal class TradeSideConverter : BaseConverter<ParibuTradeSide>
+    public class TradeSideConverter : BaseConverter<ParibuTradeSide>
     {
         public TradeSideConverter() : this(true) { }
         public TradeSideConverter(bool quotes) : base(quotes) { }

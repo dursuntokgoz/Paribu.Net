@@ -8,10 +8,10 @@
   <PropertyGroup>
     <PackageId>Paribu.Net</PackageId>
     <Authors>Burak Öner</Authors>
-    <Version>1.2.9</Version>
-    <FileVersion>1.2.9.0</FileVersion>
-    <PackageVersion>1.2.9</PackageVersion>
-    <AssemblyVersion>1.2.9.0</AssemblyVersion>
+    <Version>2.0.0</Version>
+    <FileVersion>2.0.0.0</FileVersion>
+    <PackageVersion>2.0.0</PackageVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <Description>Paribu.Net is a .Net wrapper for the Paribu API. It includes supports all endpoints</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>Paribu Paribu.Net C# .Net CryptoCurrency Exchange API Wrapper</PackageTags>
@@ -19,14 +19,9 @@
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>
-      Version 1.2.9 - 16 Jan 2021
-      - Fixed some minor bugs
-      
-      Version 1.2.8 - 12 Jan 2021
-      - Updated CryptoExchange.Net to 3.5.0
-
-      Version 1.0.0 - 03 Jan 2021
-      - First Release
+      Version 2.0.0 - 17 Jan 2021
+      - All methods are virtual now. You can customize methods by overriding.
+      - Fixed several minor bugs
     </PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
