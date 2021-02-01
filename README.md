@@ -215,7 +215,11 @@ var sub02 = ws.SubscribeToMarketData("btc-tl", (data) =>
 _ = ws.Unsubscribe(sub02.Data);
 ```
 
-## Release Notes
+## Release Notes*
+* Version 2.0.1 - 01 Feb 2021
+    * Fixed some minor bugs
+    * Updated CryptoExchange.Net to 3.6.0
+
 * Version 2.0.0 - 17 Jan 2021
     * All methods are virtual now. You can customize methods by overriding.
     * Fixed several minor bugs

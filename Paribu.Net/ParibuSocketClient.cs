@@ -101,7 +101,7 @@ namespace Paribu.Net
                 if (patch.Index == "orderBook")
                 {
                     var pob = new ParibuSocketOrderBook { Pair = pair };
-                    var json = JsonConvert.DeserializeObject<SocketPatch<SocketMerge<SocketOrderBook>>>(data.Data);
+                    var json = JsonConvert.DeserializeObject<SocketPatch<SocketMerge<SocketOrderBook>>>(data.Data.Replace(",\"merge\":[],", ",\"merge\":{},"));
 
                     if (json.Patch.Merge.Asks != null && json.Patch.Merge.Asks.Data != null && json.Patch.Merge.Asks.Data.Count > 0)
                         foreach (var ask in json.Patch.Merge.Asks.Data)

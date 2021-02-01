@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Paribu.Net.CoreObjects;
 using CryptoExchange.Net.Objects;
+using Newtonsoft.Json;
+using Paribu.Net.SocketObjects;
 
 namespace Paribu.Net.Examples
 {
